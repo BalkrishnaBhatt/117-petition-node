@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const key = require('./../config/key')
 
-mongoose.connect('mongodb://127.0.0.1:27017/117-petition-node', {
+mongoose.connect(key.mongodbURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 })
+

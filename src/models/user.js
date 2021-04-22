@@ -38,7 +38,16 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true,
         }
-    }]
+    }],
+    role:{
+        type: String,
+        required: true,
+        enum: {
+            values: ['admin', 'user'],
+            message: 'Invalid user role'
+        },
+        default: 'user'
+    }
 }, {
     timestamps: true
 })
@@ -60,6 +69,7 @@ userSchema.methods.toJSON = function () {
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject.role
 
     return userObject
 }

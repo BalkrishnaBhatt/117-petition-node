@@ -26,7 +26,7 @@ module.exports = (app) => {
         }
     })
 
-    app.post('/user/logout', auth, async (req, res) => {
+    app.post('/user/logout', auth(), async (req, res) => {
         try {
             req.user.tokens = req.user.tokens.filter((token) => token.token !== req.token)
             await req.user.save()
@@ -37,7 +37,7 @@ module.exports = (app) => {
         }
     })
 
-    app.post('/user/logoutAll', auth, async (req, res) => {
+    app.post('/user/logoutAll', auth(), async (req, res) => {
         try {
             req.user.tokens = []
             await req.user.save()
@@ -49,12 +49,12 @@ module.exports = (app) => {
     })
 
     // Get user profile
-    app.get('/user/me', auth, async (req, res) => {
+    app.get('/user/me', auth(), async (req, res) => {
         res.send(req.user)
     })
 
     // Updated user profile
-    app.patch('/user/me', auth, async (req, res) => {
+    app.patch('/user/me', auth(), async (req, res) => {
         const updates = Object.keys(req.body)
         const allowedUpdates = ['name', 'email', 'password', 'age']
         const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -75,7 +75,7 @@ module.exports = (app) => {
     })
 
     // Delete user
-    app.delete('/user/me', auth, async (req, res) => {
+    app.delete('/user/me', auth(), async (req, res) => {
         try {
             await req.user.remove()
             res.send(req.user)
